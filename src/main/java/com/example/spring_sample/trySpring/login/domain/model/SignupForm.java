@@ -10,22 +10,22 @@ import java.util.Date;
 @Data
 public class SignupForm implements Serializable {
 
-    @NotBlank
-    @Email
+    @NotBlank(groups = ValidGroup1.class)
+    @Email(groups = ValidGroup2.class)
     private String userId;
 
-    @NotBlank
-    @Size(min = 4, max = 20)
-    @Pattern(regexp = "^[A-Za-z0-9]+$")
+    @NotBlank(groups = ValidGroup1.class)
+    @Size(min = 4, max = 20, groups = ValidGroup2.class)
+    @Pattern(regexp = "^[A-Za-z0-9]+$", groups = ValidGroup3.class)
     private String password;
 
-    @NotBlank
+    @NotBlank(groups = ValidGroup1.class)
     private String userName;
 
-    @NotNull
+    @NotNull(groups = ValidGroup1.class)
     @DateTimeFormat(pattern = "yyyy/MM/dd")
     private Date birthday;
 
-    @AssertFalse
+    @AssertFalse(groups = ValidGroup1.class)
     private boolean admin;
 }

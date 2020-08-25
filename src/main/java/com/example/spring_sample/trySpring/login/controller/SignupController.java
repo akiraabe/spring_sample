@@ -1,5 +1,6 @@
 package com.example.spring_sample.trySpring.login.controller;
 
+import com.example.spring_sample.trySpring.login.domain.model.GroupOrder;
 import com.example.spring_sample.trySpring.login.domain.model.SignupForm;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -32,7 +33,7 @@ public class SignupController {
     }
 
     @PostMapping("/signup")
-    public String postSignUp(@ModelAttribute @Validated SignupForm form, BindingResult bindingResult, Model model) {
+    public String postSignUp(@ModelAttribute @Validated(GroupOrder.class) SignupForm form, BindingResult bindingResult, Model model) {
 
         if (bindingResult.hasErrors()) {
             return getSignUp(form, model);
