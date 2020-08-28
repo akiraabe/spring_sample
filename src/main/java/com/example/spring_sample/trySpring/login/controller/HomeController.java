@@ -1,17 +1,34 @@
 package com.example.spring_sample.trySpring.login.controller;
 
+import com.example.spring_sample.trySpring.login.domain.model.SignupForm;
+import com.example.spring_sample.trySpring.login.domain.model.User;
 import com.example.spring_sample.trySpring.login.domain.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 public class HomeController {
 
     @Autowired
     UserService userService;
+
+    private Map<String, String> radioAdmin;
+
+    private Map<String, String> initRadioAdmin() {
+        Map<String, String> radio = new LinkedHashMap<>();
+        radio.put("管理者","true");
+        radio.put("一般", "false");
+        return radio;
+    }
 
     @GetMapping("/home")
     public String getHome(Model model) {
@@ -21,8 +38,71 @@ public class HomeController {
         return "login/homeLayout";
     }
 
+    @GetMapping("/userList")
+    public String getUserList(Model model) {
+        model.addAttribute("contents", "login/userList :: userList_contents");
+        List<User> userList = userService.selectMany();
+
+        model.addAttribute("userList", userList);
+        model.addAttribute("userListCount", userService.count());
+
+        return "login/homeLayout";
+    }
+
+    @GetMapping("/userDetail/{id:.+}")
+    public String getUserDetail(@ModelAttribute SignupForm form, Model model, @PathVariable("id") String userId) {
+
+        System.out.println("userId = " + userId);
+
+        model.addAttribute("contents", "login/userDetail :: userDetail_contents");
+
+        radioAdmin = initRadioAdmin();
+        model.addAttribute("radioAdmin", radioAdmin);
+        if (userId !=null && userId.length() > 0) {
+            User user = userService.selectOne(userId);
+
+            form.setUserId(user.getUserId());
+            form.setUserName(user.getUserName());
+            form.setBirthday(user.getBirthday());
+            form.setAdmin(user.isAdmin());
+
+            model.addAttribute("signupForm", form);
+        }
+        return "login/homeLayout";
+    }
+
+    @PostMapping(value = "/userDetail", params = "update")
+    public String postUserDetailUpdate(@ModelAttribute SignupForm form, Model model) {
+
+        System.out.println("更新ボタンの処理");
+
+        User user = new User();
+
+        user.setUserId(form.getUserId());
+        user.setPassword(form.getPassword());
+        user.setUserName(form.getUserName());
+        user.setBirthday(form.getBirthday());
+        user.setAdmin(form.isAdmin());
+
+        boolean result = userService.updateOne(user);
+
+        if (result) {
+            model.addAttribute("result", "更新成功");
+        } else {
+            model.addAttribute("result", "更新失敗");
+        }
+        return getUserList(model);
+    }
+
+
     @PostMapping("/logout")
     public String postLogout() {
         return "redirect:/login";
+    }
+
+    @GetMapping("/userList/csv")
+    public String getUserListCsv(Model model) {
+
+        return getUserList(model);
     }
 }
