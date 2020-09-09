@@ -15,7 +15,7 @@ $ mvn spring-boot:build-image
 ## Dockerコンテナ実行
 
 ```shell script
-$ docker run -it -p80:8888 spring_sample:0.0.1-SNAPSHOT
+$ docker run -it -p80:80 spring_sample:0.0.1-SNAPSHOT
 ```
 
 http://localhost/home
