@@ -17,6 +17,7 @@ import java.util.List;
 public class UserService {
 
     @Autowired
+//    @Qualifier("UserDaoJdbcImpl")
     UserDao dao;
 
     public boolean insert(User user) {
@@ -45,7 +46,7 @@ public class UserService {
 
         boolean result = false;
 
-        if (rowNumber > 0 ) {
+        if (rowNumber > 0) {
             result = true;
         }
 

@@ -1,3 +1,3 @@
-abe.akira@tis.co.jp,,Akira Abe,1968-01-05,true,ROLE_ADMIN
-root@tis.co.jp,password,Root User,1990-12-31,false,ROOT
-akiraabe2012@gmail.com,password,akiraabe2012,1968-01-05,false,ROLE_GENERAL
+abe.akira@tis.co.jp,$2a$10$xRTXvpMWly0oGiu65WZlm.3YL95LGVV2ASFjDhe6WF4.QJi1huIPa,Akira Abe,1968-01-05,true,ROLE_ADMIN
+root@tis.co.jp,$2a$10$xRTXvpMWly0oGiu65WZlm.3YL95LGVV2ASFjDhe6WF4.QJi1huIPa,Root User,1990-12-31,false,ROOT
+akiraabe2012@gmail.com,$2a$10$4kLS1ieCWp5OQQFnRnQlDuRmL8KeVeVziLny.1jcNM.k/NO7G2xPK,akiraabe2012,2020-01-01,false,ROLE_GENERAL
