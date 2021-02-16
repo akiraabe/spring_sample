@@ -54,6 +54,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/css/**").permitAll()
                 .antMatchers("/login").permitAll()
                 .antMatchers("/signup").permitAll()
+                .antMatchers("/rest/**").permitAll()
+                .antMatchers("/admin").hasAuthority("ROLE_ADMIN")
                 .anyRequest().authenticated();
 
         // ログイン処理
@@ -70,7 +72,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .logoutSuccessUrl("/login");
 
         // CSRF対策を無効に設定（一時的な措置です）
-        http.csrf().disable();
+        // http.csrf().disable();
+
+        RestMatcher csrfMatcher = new RestMatcher("/rest/**");
+
+        http.csrf().requireCsrfProtectionMatcher(csrfMatcher);
     }
 
     @Override
